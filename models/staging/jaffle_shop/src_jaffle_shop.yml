@@ -1,3 +1,16 @@
+# version: 2
+
+# sources:
+#   - name: jaffle_shop
+#     database: dbt-tutorial
+#     schema: jaffle_shop
+#     tables:
+#       - name: customers
+#       - name: orders
+#         loaded_at_field: _etl_loaded_at
+#         freshness:
+#           warn_after: {count: 1, period: hour}
+#           error_after: {count: 24, period: hour}
 version: 2
 
 sources:
@@ -6,8 +19,19 @@ sources:
     schema: jaffle_shop
     tables:
       - name: customers
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+            
       - name: orders
+        columns:
+          - name: id
+            tests:
+              - unique              
+              - not_null
         loaded_at_field: _etl_loaded_at
         freshness:
-          warn_after: {count: 1, period: hour}
+          warn_after: {count: 12, period: hour}
           error_after: {count: 24, period: hour}
